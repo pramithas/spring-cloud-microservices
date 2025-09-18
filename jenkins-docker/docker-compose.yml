@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17  # Use the LTS version with Java 17
+    container_name: jenkins
+    restart: unless-stopped           # Automatically restart on reboot or crash
+    ports:
+      - "9095:8080"                   # Web UI port
+      - "50000:50000"                 # Agent communication port
+    volumes:
+      - jenkins_data:/var/jenkins_home  # Persistent volume for config and jobs
+      - /var/run/docker.sock:/var/run/docker.sock  # Allows Jenkins to run Docker commands (Docker-in-Docker)
+    environment:
+      - TZ=Asia/Kathmandu
+#      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false # Disable setup wizard if pre-seeding config (advanced)
+    # Note: For a real production setup, you should *not* disable the setup wizard.
+    # Instead, you would use the initial admin password as shown in the first-run guide.
+
+volumes:
+  jenkins_data:  # This defines a named volume for persistence. Docker manages its location.

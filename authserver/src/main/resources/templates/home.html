@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<h2>Welcome!</h2>
+
+<div th:if="${user}">
+    <h3>User Information from Google:</h3>
+    <p>Email: <span th:text="${user.email}"></span></p>
+    <p>Name: <span th:text="${user.name}"></span></p>
+    <p>Google User ID: <span th:text="${user.sub}"></span></p>
+
+    <h4>All Google Attributes:</h4>
+<!--    <pre th:text="${#maps.toString(user)}"></pre>-->
+
+    <h4>ID Token (issued by YOUR server):</h4>
+    <pre th:text="${idToken}"></pre>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+
+<div th:unless="${user}">
+    <p>Not authenticated. <a href="/login">Login here</a></p>
+</div>
+</body>
+</html>

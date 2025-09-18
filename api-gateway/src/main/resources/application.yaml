@@ -1,0 +1,75 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=X-GATEWAY-AUTH, some-secret  # Header for all requests
+      routes:
+        - id: auth-server
+          uri: lb://auth-server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authServerCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+
+        - id: client-server
+          uri: lb://my-client-app
+          predicates:
+            - Path=/api/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: clientServerCircuitBreaker
+                fallbackUri: forward:/fallback/client
+                statusCodes: 500
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+    ip-address: 127.0.0.1
+    non-secure-port: ${server.port}
+    instance-id: ${spring.application.name}:${server.port}
+    metadata-map:
+      instanceId: ${spring.application.name}:${server.port}
+
+    config:
+      enabled: false
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      authServerCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+
+      clientServerCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, circuitbreakers, metrics
+  endpoint:
+    health:
+      show-details: always

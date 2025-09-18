@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        default-label: main
+        jdbc:
+          sql: SELECT property_key, property_value FROM properties WHERE application=? AND profile=? AND label=?
+  profiles:
+    active: jdbc
+  datasource:
+    url: jdbc:mysql://localhost:3306/authdb
+    username: authuser
+    password: authpass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8888
