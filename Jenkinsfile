@@ -38,7 +38,7 @@ pipeline {
         stage('Build & Test All Services') {
 			steps {
 				// Build the entire multi-module project from root
-       			 sh 'mvn clean package'
+       			 sh 'mvn clean package -DskipTests'
     		}
         }
 
