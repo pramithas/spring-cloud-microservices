@@ -17,7 +17,7 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: "master"]], // Builds the triggering branch, defaults to 'main'
+                    branches: [[name: "main"]], // Builds the triggering branch, defaults to 'main'
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [
                         [$class: 'CleanBeforeCheckout'], // Discards all local changes
