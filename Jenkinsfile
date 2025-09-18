@@ -25,7 +25,7 @@ pipeline {
                         [$class: 'WipeWorkspace']        // Deletes the entire workspace before checkout (most thorough)
                     ],
                     userRemoteConfigs: [[
-                        url: 'git@github.com:pramithas/MicroservicesDemoApp.git',
+                        url: 'git@github.com:pramithas/spring-cloud-microservices.git',
                         credentialsId: 'GitHub-credentials-jenkins' // SSH or HTTPS token credential ID
                     ]]
                 ])
