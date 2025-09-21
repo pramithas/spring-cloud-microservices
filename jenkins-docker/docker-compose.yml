@@ -11,6 +11,7 @@ services:
     volumes:
       - jenkins_data:/var/jenkins_home  # Persistent volume for config and jobs
       - /var/run/docker.sock:/var/run/docker.sock  # Allows Jenkins to run Docker commands (Docker-in-Docker)
+      - /usr/bin/docker:/usr/bin/docker  # Mount Docker CLI
     environment:
       - TZ=Asia/Kathmandu
 #      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false # Disable setup wizard if pre-seeding config (advanced)
