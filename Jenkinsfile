@@ -69,33 +69,50 @@ pipeline {
             }
         }
 
-        stage('Deploy to Dev') {
+        stage('Deploy to Dev (Minikube)') {
 			steps {
 				script {
-					def services = env.SERVICE_LIST_STRING.split(',')
-                    for (service in services) {
-						echo "Deploying ${service}:${env.BUILD_ID} to Development"
-                        // sh "kubectl set image deployment/${service} ${service}=${env.DOCKER_REGISTRY}/${service}:${env.BUILD_ID} -n dev"
-                    }
-                }
-            }
-        }
+					// Ensure Minikube is running
+            		sh "minikube status || minikube start"
 
-        stage('Deploy to Prod') {
-			input {
-				message "Deploy all services to PRODUCTION?"
-                ok "Yes, deploy!"
-            }
-            steps {
-				script {
+					// Switch context to Minikube
+					sh "kubectl config use-context minikube"
+
 					def services = env.SERVICE_LIST_STRING.split(',')
-                    for (service in services) {
-						echo "Deploying ${service}:${env.BUILD_ID} to PRODUCTION"
-                        // sh "kubectl set image deployment/${service} ${service}=${env.DOCKER_REGISTRY}/${service}:${env.BUILD_ID} -n prod"
-                    }
-                }
-            }
-        }
+					for (service in services) {
+						echo "Deploying ${service}:${env.BUILD_ID} to Development (Minikube)"
+						sh """
+							kubectl set image deployment/${service} \
+							${service}=${env.DOCKER_REGISTRY}/${service}:${env.BUILD_ID} \
+							-n dev || kubectl apply -f k8s/dev/${service}.yaml
+						"""
+					}
+       			}
+    		}
+	    }
+
+		stage('Deploy to Prod (Minikube)') {
+			input {
+				message "Deploy all services to PRODUCTION on Minikube?"
+				ok "Yes, deploy!"
+			}
+			steps {
+				script {
+					sh "kubectl config use-context minikube"
+
+					def services = env.SERVICE_LIST_STRING.split(',')
+					for (service in services) {
+						echo "Deploying ${service}:${env.BUILD_ID} to PRODUCTION (Minikube)"
+						sh """
+							kubectl set image deployment/${service} \
+							${service}=${env.DOCKER_REGISTRY}/${service}:${env.BUILD_ID} \
+							-n prod || kubectl apply -f k8s/prod/${service}.yaml
+						"""
+					}
+				}
+			}
+		}
+
     }
 
     post {
