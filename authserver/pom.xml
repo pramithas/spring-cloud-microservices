@@ -57,6 +57,7 @@
 
     <build>
         <plugins>
+            <!-- Compile with Java 21 + Lombok -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -73,8 +74,22 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- Package Spring Boot app into a runnable fat JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
 
 
 </project>
