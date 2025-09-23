@@ -1,6 +1,7 @@
 package com.f1soft.apigateway.config;
 
 import com.f1soft.apigateway.util.KeyFileUtils;
+import com.f1soft.apigateway.util.KeyPathUtils;
 import com.f1soft.apigateway.util.KeyUtils;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.RSADecrypter;
@@ -35,10 +36,10 @@ public class HybridJwtDecoder implements JwtDecoder {
 
     public HybridJwtDecoder() throws Exception {
         // 1. Load private key for decryption (to unwrap JWE)
-        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key"))));
+        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(KeyPathUtils.getClientPrivateKey()));
 
         // 2. Load signing public key for signature verification (auth server's public key)
-        RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/public.key"))));
+        RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(KeyPathUtils.getAuthServerPublicKey()));
 
         // 3. Configure JWT Processor for signature verification (RS256)
         // Had to specifically specify the keyId that I made static and also the algorithm.

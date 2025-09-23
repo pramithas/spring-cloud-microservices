@@ -1,6 +1,7 @@
 package com.f1soft.client.application.rest;
 
 import com.f1soft.client.application.util.KeyFileUtils;
+import com.f1soft.client.application.util.KeyPathUtils;
 import com.f1soft.client.application.util.KeyUtils;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.RSADecrypter;
@@ -39,12 +40,12 @@ public class JwkController {
 
             // 1. Load private key from file
             RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                    KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key")))
+                    KeyFileUtils.readKeyFromFile(KeyPathUtils.getClientPrivateKey())
             );
 
             // 2. Load public key (optional, for completeness)
             RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                    KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key")))
+                    KeyFileUtils.readKeyFromFile(KeyPathUtils.getClientPublicKey())
             );
 
             // 3. Build RSAKey

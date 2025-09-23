@@ -3,6 +3,7 @@ package com.f1soft.authserver.config;
 import com.f1soft.authserver.encoder.JweJwtEncoder;
 import com.f1soft.authserver.service.ClientService;
 import com.f1soft.authserver.utils.KeyFileUtils;
+import com.f1soft.authserver.utils.KeyPathUtils;
 import com.f1soft.authserver.utils.KeyUtils;
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JWEAlgorithm;
@@ -94,16 +95,16 @@ public class AuthorizationServerConfig {
 
         // 1. Load signing RSA private + public key from static files
         RSAPrivateKey signingPrivateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/private.key")))
+                KeyFileUtils.readKeyFromFile(KeyPathUtils.getAuthServerPrivateKey())
         );
         RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/public.key")))
+                KeyFileUtils.readKeyFromFile(KeyPathUtils.getAuthServerPublicKey())
         );
 
 
         // 2. Load client RSA public key from static file
         RSAPublicKey clientPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key")))
+                KeyFileUtils.readKeyFromFile(KeyPathUtils.getClientPublicKey())
         );
 
         RSAKey clientRsaKey = new RSAKey.Builder(clientPublicKey).build();
@@ -157,20 +158,20 @@ public class AuthorizationServerConfig {
         return http.build();
     }
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration google = ClientRegistration.withRegistrationId("google")
-                .scope("openid", "profile", "email")
-                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
-                .tokenUri("https://oauth2.googleapis.com/token")
-                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
-                .userNameAttributeName("sub")
-                .redirectUri("http://localhost:8085/auth/login/oauth2/code/{registrationId}")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
-                .build();
-        return new InMemoryClientRegistrationRepository(google);
-    }
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        ClientRegistration google = ClientRegistration.withRegistrationId("google")
+//                .scope("openid", "profile", "email")
+//                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+//                .tokenUri("https://oauth2.googleapis.com/token")
+//                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+//                .userNameAttributeName("sub")
+//                .redirectUri("http://localhost:8085/auth/login/oauth2/code/{registrationId}")
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+//                .build();
+//        return new InMemoryClientRegistrationRepository(google);
+//    }
 
     /**
      * This is the catch-all chain for any other request that doesn’t match the authorization server endpoints.

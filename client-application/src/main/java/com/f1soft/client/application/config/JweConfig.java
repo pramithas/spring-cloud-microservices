@@ -1,6 +1,7 @@
 package com.f1soft.client.application.config;
 
 import com.f1soft.client.application.util.KeyFileUtils;
+import com.f1soft.client.application.util.KeyPathUtils;
 import com.f1soft.client.application.util.KeyUtils;
 import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JWEAlgorithm;
@@ -30,8 +31,8 @@ public class JweConfig {
         System.out.println("jwtDecoder called");
 
         // 1. Load private key from local file
-        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key"))));
-        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key"))));
+        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(KeyPathUtils.getClientPublicKey()));
+        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(KeyPathUtils.getAuthServerPrivateKey()));
 
         RSAKey rsaKey = new RSAKey.Builder(publicKey)
                 .privateKey(privateKey)

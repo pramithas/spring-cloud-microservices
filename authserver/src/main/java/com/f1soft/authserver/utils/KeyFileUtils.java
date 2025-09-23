@@ -26,12 +26,12 @@ public class KeyFileUtils {
         String privateKey = AuthServerKeyUtils.encodePrivateKey(keyPair.getPrivate());
 
         // Save to files
-        saveKeyToFile(publicKey, "client_rsa_public.key");
-        saveKeyToFile(privateKey, "client_rsa_private.key");
+        saveKeyToFile(publicKey, "public.key");
+        saveKeyToFile(privateKey, "private.key");
 
         // Optional: Read back from files
-        String loadedPublicKey = readKeyFromFile("client_rsa_public.key");
-        String loadedPrivateKey = readKeyFromFile("client_rsa_private.key");
+        String loadedPublicKey = readKeyFromFile("public.key");
+        String loadedPrivateKey = readKeyFromFile("private.key");
 
         System.out.println("Loaded Public Key: " + loadedPublicKey);
         System.out.println("Loaded Private Key: " + loadedPrivateKey);
