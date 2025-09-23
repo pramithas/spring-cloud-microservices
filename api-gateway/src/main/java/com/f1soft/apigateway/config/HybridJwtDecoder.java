@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
@@ -34,10 +35,10 @@ public class HybridJwtDecoder implements JwtDecoder {
 
     public HybridJwtDecoder() throws Exception {
         // 1. Load private key for decryption (to unwrap JWE)
-        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("client_rsa_private.key"));
+        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key"))));
 
         // 2. Load signing public key for signature verification (auth server's public key)
-        RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile("auth_rsa_public.key"));
+        RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/public.key"))));
 
         // 3. Configure JWT Processor for signature verification (RS256)
         // Had to specifically specify the keyId that I made static and also the algorithm.

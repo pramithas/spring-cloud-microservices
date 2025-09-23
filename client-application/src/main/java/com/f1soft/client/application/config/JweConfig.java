@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
+import java.nio.file.Paths;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -29,8 +30,8 @@ public class JweConfig {
         System.out.println("jwtDecoder called");
 
         // 1. Load private key from local file
-        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile("client_rsa_public.key"));
-        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("client_rsa_private.key"));
+        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key"))));
+        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key"))));
 
         RSAKey rsaKey = new RSAKey.Builder(publicKey)
                 .privateKey(privateKey)

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.file.Paths;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
@@ -38,12 +39,12 @@ public class JwkController {
 
             // 1. Load private key from file
             RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                    KeyFileUtils.readKeyFromFile("client_rsa_private.key")
+                    KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/private.key")))
             );
 
             // 2. Load public key (optional, for completeness)
             RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                    KeyFileUtils.readKeyFromFile("client_rsa_public.key")
+                    KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key")))
             );
 
             // 3. Build RSAKey

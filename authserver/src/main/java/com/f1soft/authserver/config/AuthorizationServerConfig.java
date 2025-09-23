@@ -94,16 +94,16 @@ public class AuthorizationServerConfig {
 
         // 1. Load signing RSA private + public key from static files
         RSAPrivateKey signingPrivateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/private.key")))
+                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/private.key")))
         );
         RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/public.key")))
+                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/authserver/public.key")))
         );
 
 
         // 2. Load client RSA public key from static file
         RSAPublicKey clientPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile("../client_rsa_public.key")
+                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/client/public.key")))
         );
 
         RSAKey clientRsaKey = new RSAKey.Builder(clientPublicKey).build();
