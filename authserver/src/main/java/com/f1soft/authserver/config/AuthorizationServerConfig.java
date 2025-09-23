@@ -39,6 +39,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.file.Paths;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -93,16 +94,16 @@ public class AuthorizationServerConfig {
 
         // 1. Load signing RSA private + public key from static files
         RSAPrivateKey signingPrivateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                KeyFileUtils.readKeyFromFile("../auth_rsa_private.key")
+                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/private.key")))
         );
         RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile("../auth_rsa_public.key")
+                KeyFileUtils.readKeyFromFile(String.valueOf(Paths.get("/app/keys/public.key")))
         );
 
 
         // 2. Load client RSA public key from static file
         RSAPublicKey clientPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                KeyFileUtils.readKeyFromFile("../rsa_public.key")
+                KeyFileUtils.readKeyFromFile("../client_rsa_public.key")
         );
 
         RSAKey clientRsaKey = new RSAKey.Builder(clientPublicKey).build();

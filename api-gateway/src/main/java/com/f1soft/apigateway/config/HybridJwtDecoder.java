@@ -34,7 +34,7 @@ public class HybridJwtDecoder implements JwtDecoder {
 
     public HybridJwtDecoder() throws Exception {
         // 1. Load private key for decryption (to unwrap JWE)
-        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("rsa_private.key"));
+        this.privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("client_rsa_private.key"));
 
         // 2. Load signing public key for signature verification (auth server's public key)
         RSAPublicKey signingPublicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile("auth_rsa_public.key"));

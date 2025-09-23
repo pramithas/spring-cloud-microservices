@@ -5,10 +5,10 @@ spring:
     import: optional:configserver:http://localhost:8888
 
   datasource:
-    url: jdbc:mysql://localhost:3306/authdb
-    username: ${DB_USERNAME:authuser}
-    password: ${DB_PASSWORD:authpass}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:

@@ -38,12 +38,12 @@ public class JwkController {
 
             // 1. Load private key from file
             RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(
-                    KeyFileUtils.readKeyFromFile("rsa_private.key")
+                    KeyFileUtils.readKeyFromFile("client_rsa_private.key")
             );
 
             // 2. Load public key (optional, for completeness)
             RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(
-                    KeyFileUtils.readKeyFromFile("rsa_public.key")
+                    KeyFileUtils.readKeyFromFile("client_rsa_public.key")
             );
 
             // 3. Build RSAKey

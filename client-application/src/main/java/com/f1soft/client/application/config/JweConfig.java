@@ -29,8 +29,8 @@ public class JweConfig {
         System.out.println("jwtDecoder called");
 
         // 1. Load private key from local file
-        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile("rsa_public.key"));
-        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("rsa_private.key"));
+        RSAPublicKey publicKey = (RSAPublicKey) KeyUtils.decodePublicKey(KeyFileUtils.readKeyFromFile("client_rsa_public.key"));
+        RSAPrivateKey privateKey = (RSAPrivateKey) KeyUtils.decodePrivateKey(KeyFileUtils.readKeyFromFile("client_rsa_private.key"));
 
         RSAKey rsaKey = new RSAKey.Builder(publicKey)
                 .privateKey(privateKey)
