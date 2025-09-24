@@ -27,6 +27,9 @@
 **/release.properties
 **/dependency-reduced-pom.xml
 
+# Private and public keys
+*/src/main/resources/keys/
+
 # Logs
 **/logs/
 *.log
