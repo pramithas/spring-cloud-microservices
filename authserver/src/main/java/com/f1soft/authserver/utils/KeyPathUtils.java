@@ -21,9 +21,9 @@ public class KeyPathUtils {
             // Default local path
             switch (appName.toLowerCase()) {
                 case "authserver":
-                    return "src/main/resources/keys/authserver/" + keyType + ".key";
+                    return "keys/authserver/" + keyType + ".key";
                 case "client":
-                    return "src/main/resources/keys/client/" + keyType + ".key";
+                    return "keys/client/" + keyType + ".key";
                 default:
                     throw new IllegalArgumentException("Unknown appName: " + appName);
             }

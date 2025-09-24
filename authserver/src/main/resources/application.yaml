@@ -5,9 +5,9 @@ spring:
     import: optional:configserver:http://localhost:8888
 
   datasource:
-      url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-      username: ${DB_USER}
-      password: ${DB_PASSWORD}
+      url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:authdb}
+      username: ${DB_USER:authuser}
+      password: ${DB_PASSWORD:authpass}
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
