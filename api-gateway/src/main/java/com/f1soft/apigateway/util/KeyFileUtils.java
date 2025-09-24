@@ -2,6 +2,8 @@ package com.f1soft.apigateway.util;
 
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -17,15 +19,15 @@ public class KeyFileUtils {
 
     public static String readKeyFromFile(String filePath) throws IOException {
         try {
-            ClassPathResource resource = new ClassPathResource(filePath);
-            InputStream inputStream = resource.getInputStream();
-            // Read the file content
-            String fileContent = new String(inputStream.readAllBytes());
-            inputStream.close();
+            // Use relative path from project root
+            File file = new File("app/keys/" + filePath);
 
-            return fileContent;
+            if (!file.exists()) {
+                throw new FileNotFoundException("Key file not found: " + file.getAbsolutePath());
+            }
+            return new String(Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read private key file", e);
+            throw new RuntimeException("Failed to read key file: " + filePath, e);
         }
     }
 

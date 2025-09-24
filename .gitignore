@@ -28,7 +28,7 @@
 **/dependency-reduced-pom.xml
 
 # Private and public keys
-*/src/main/resources/keys/
+app
 
 # Logs
 **/logs/
