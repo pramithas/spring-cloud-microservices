@@ -19,8 +19,12 @@ public class KeyFileUtils {
 
     public static String readKeyFromFile(String filePath) throws IOException {
         try {
+            System.out.println("The file path is: " + filePath);
             // Use relative path from project root
-            File file = new File("app/keys/" + filePath);
+//            File file = new File("app/" + filePath);
+            File file = new File(filePath);
+
+            System.out.println("The absolute file path is: " + file.getAbsolutePath());
 
             if (!file.exists()) {
                 throw new FileNotFoundException("Key file not found: " + file.getAbsolutePath());
